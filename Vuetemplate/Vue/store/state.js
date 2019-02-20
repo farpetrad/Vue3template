@@ -1,0 +1,5 @@
+﻿const state = {
+
+};
+
+export { state };

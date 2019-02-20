@@ -1,0 +1,18 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+		"useBuiltIns": "entry",
+		"targets": "> 0.25%, not dead",
+        "modules": false
+      }
+    ]
+  ],
+  "plugins": [
+    "@babel/plugin-syntax-dynamic-import",
+	"@babel/plugin-transform-runtime"
+  ],
+  "comments":false,
+  
+}

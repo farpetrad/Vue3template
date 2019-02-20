@@ -1,0 +1,5 @@
+﻿const getters = {
+
+};
+
+export { getters };
