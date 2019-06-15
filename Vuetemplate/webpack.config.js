@@ -7,7 +7,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackCleanPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssPlugin = require('optimize-css-assets-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const WebpackBundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 //Output location
@@ -20,7 +19,7 @@ const pageOutputPath = './wwwroot/';
 const appbasePath = './ClientApp/';
 
 //Paths
-const scriptPath = '/Scripts/Bundle';
+const scriptPath = './Scripts/Bundle/';
 const stylePath = '/Content/Styles';
 
 const environmentName = (process.env.NODE_ENV || '').trim();
@@ -55,7 +54,7 @@ module.exports = {
             {
                 test: /\.*scss$/,
                 use: [
-                    isProduction ? MiniCssExtractPlugin.loader : 'vue-style-loader',
+                    MiniCssExtractPlugin.loader,
                     'css-loader',
                     {
                         loader: 'sass-loader',
@@ -68,7 +67,7 @@ module.exports = {
             {
                 test: /\.*sass$/,
                 use: [
-                    isProduction ? MiniCssExtractPlugin.loader : 'vue-style-loader',
+                    MiniCssExtractPlugin.loader,
                     'css-loader',
                     {
                         loader: 'sass-loader',
@@ -103,7 +102,7 @@ module.exports = {
                             limit: 8192,
                             fallback: 'file-loader',
                             name: '[name].[ext]?[hash]',
-                            outputPath: imgOutputPath + 'Images'
+                            outputPath: imgOutputPath + '/Images'
                         }
                     }
                 ]
@@ -136,7 +135,7 @@ module.exports = {
         }),
 
         new HtmlWebpackPlugin({
-            title: 'Baked Perfection',
+            title: 'Vuetemplate',
             filename: path.resolve(__dirname, pageOutputPath + 'index.html'),
             inject: true,
             template: path.resolve(__dirname, appbasePath + '/public/index.html')
@@ -182,15 +181,7 @@ switch (process.env.NODE_ENV) {
         module.exports.optimization.minimize = true;
 
         module.exports.optimization.minimizer = (module.exports.optimization.minimizer || []).concat([
-            new OptimizeCssPlugin(),
-            new UglifyJsPlugin({
-                cache: true,
-                parallel: true,
-                uglifyOptions: {
-                    mangle: true,                    
-                    toplevel:true
-                }
-            })
+            new OptimizeCssPlugin()            
         ]);
 
         break;
