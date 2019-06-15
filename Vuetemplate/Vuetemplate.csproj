@@ -13,7 +13,7 @@
 
 
   <ItemGroup>
-    <Folder Include="Vue\components\" />
+    <Folder Include="ClientApp\components\" />
   </ItemGroup>
 
 </Project>

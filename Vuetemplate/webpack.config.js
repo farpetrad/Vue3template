@@ -8,7 +8,6 @@ const WebpackCleanPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin');
 const WebpackBundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 //Output location
@@ -18,7 +17,7 @@ const imgOutputPath = '../../Content';
 const pageOutputPath = './wwwroot/';
 
 //App lication in sln
-const appbasePath = './Vue/';
+const appbasePath = './ClientApp/';
 
 //Paths
 const scriptPath = '/Scripts/Bundle';
@@ -108,10 +107,6 @@ module.exports = {
                         }
                     }
                 ]
-            },
-            {
-                test: /\.styl$/,
-                loader: 'css-loader!stylus-loader?paths=node_modules/bootstrap-stylus/stylus/'
             }
         ]
     },
@@ -151,9 +146,7 @@ module.exports = {
             filename: isProduction ? styleOutputPath + '[name].[hash].css' : styleOutputPath + '[name].css',
             chunkFilename: isProduction ? styleOutputPath + '[id].[hash].css' : styleOutputPath + '[id].css',
             publicPath: stylePath
-        }),
-
-        new VuetifyLoaderPlugin()
+        })
 
         //,new WebpackBundleAnalyzerPlugin()
     ],
