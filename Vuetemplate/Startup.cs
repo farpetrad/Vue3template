@@ -33,10 +33,11 @@ namespace BakedPerfection.Core
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             }).AddResponseCompression(options=>
             {
+                options.EnableForHttps = true;
                 options.Providers.Add<BrotliCompressionProvider>();
                 options.Providers.Add<GzipCompressionProvider>();
-            })
-            .AddResponseCaching()
+                options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "image/svg+xml", "application/xhml+xml", "image/x-icon" });
+            })            
             .Configure<BrotliCompressionProviderOptions>(options =>
             {
                 options.Level = CompressionLevel.Optimal;
@@ -45,6 +46,7 @@ namespace BakedPerfection.Core
             {
                 options.Level = CompressionLevel.Optimal;
             })
+            .AddResponseCaching()
             .AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -56,8 +58,9 @@ namespace BakedPerfection.Core
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseResponseCompression()
-                .UseResponseCaching()
+            var cachePeriod = env.IsDevelopment() ? "600" : "604900"; // dev 10 mins, otherwise 7 days and some change
+
+            app.UseResponseCompression()                
                 .Use(async (context, next) =>
                 {
                     await next();
@@ -68,7 +71,21 @@ namespace BakedPerfection.Core
                     }
                 })
                 .UseDefaultFiles(new DefaultFilesOptions { DefaultFileNames = new List<string> { "index.html" } })
-                .UseStaticFiles()
+                .UseStaticFiles(new StaticFileOptions()
+                {
+                    OnPrepareResponse = ctx =>
+                    {
+                        if (ctx.File.Name.EndsWith(".html"))
+                        {
+                            ctx.Context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
+                            ctx.Context.Response.Headers.Add("Expires", "-1");
+                        }
+                        else
+                        {
+                            ctx.Context.Response.Headers.Append("Cache-Control", $"public, max-age={cachePeriod}");
+                        }
+                    }
+                })
                 .UseMvc();
         }
     }
