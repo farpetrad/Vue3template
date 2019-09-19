@@ -266,3 +266,5 @@ __pycache__/
 /Vuetemplate/wwwroot/Scripts/Bundle
 /Vuetemplate/wwwroot/index.html
 /Vuetemplate/wwwroot/Content/Images
+/Vuetemplate/wwwroot/Content
+/Vuetemplate/.npmrc
