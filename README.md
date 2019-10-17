@@ -4,5 +4,6 @@
  * Content compression using gzip or brotli 
  * Static content caching with custom scheme for assets while not caching html content for passing http://webpagetest.org/ 
  * webpack4
+ * eslint
  * babel7
  * bootstrap via cdn
