@@ -2,4 +2,4 @@
 
 };
 
-export { state };
+export default state;
