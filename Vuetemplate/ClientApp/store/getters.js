@@ -2,4 +2,4 @@
 
 };
 
-export { getters };
+export default getters;

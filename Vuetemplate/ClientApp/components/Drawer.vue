@@ -2,11 +2,16 @@
     <transition name="leftSlide" mode="out-in">
         <nav id="drawer" class="fluid-container pb-5 pb-md-0" key="nav-drawer">
             <div class="row pb-3">
-                <div class="col-8 offset-1 mb-3 pb-3 pt-3 pl-1 mobile-indicator" @click="$emit('close-drawer')">
+                <div class="col-8 offset-1 mb-3 pb-3 pt-3 pl-1 mobile-indicator"
+                     @click="$emit('close-drawer')">
                     <h3>{{title}}</h3>
                 </div>
-                <div class="col-2 mb-3 pb-3 pt-3 pr-0 mobile-indicator text-center" @click="$emit('close-drawer')">
-                    <h3><font-awesome-icon :icon="['far', 'times']" fixed-width /><font-awesome-icon :icon="['far', 'ellipsis-v-alt']" fixed-width /></h3>
+                <div class="col-2 mb-3 pb-3 pt-3 pr-0 mobile-indicator text-center"
+                     @click="$emit('close-drawer')">
+                    <h3>
+                        <font-awesome-icon :icon="['far', 'times']" fixed-width />
+                        <font-awesome-icon :icon="['far', 'ellipsis-v-alt']" fixed-width />
+                    </h3>
                 </div>
                 <slot></slot>
             </div>
@@ -15,20 +20,20 @@
 </template>
 
 <script>
-    export default {
-        name: 'drawer',
-        props: {
-            title: { type: String, default: '' }
-        },
-        data() {
-            return {
-                isVisible: false
-            };
-        },
-        updated() {
-            this.isVisible = !this.isVisible;
-        }
+export default {
+  name: 'drawer',
+  props: {
+    title: { type: String, default: '' },
+  },
+  data() {
+    return {
+      isVisible: false,
     };
+  },
+  updated() {
+    this.isVisible = !this.isVisible;
+  },
+};
 </script>
 
 <style lang="scss">
@@ -51,7 +56,6 @@
         height:100vh;
         position:fixed;
         z-index:1300;
-        
         background-color:#e7e7e7;
         overflow:auto;
 

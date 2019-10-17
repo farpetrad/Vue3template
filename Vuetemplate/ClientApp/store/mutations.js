@@ -2,4 +2,4 @@
 
 };
 
-export { mutations };
+export default mutations;

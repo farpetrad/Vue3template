@@ -2,20 +2,29 @@
     <transition name="modalanim">
         <div id="modal-mask">
             <div class="modal-wrapper mt-2 mt-md-5 mb-2 mb-md-5">
-                <div class="modal-container col-12 offset-md-3 col-md-8 col-lg-7 col-xl-5" ref="modal">
-                
+                <div class="modal-container col-12 offset-md-3 col-md-8 col-lg-7 col-xl-5"
+                     ref="modal">
+
                     <div id="modal-header">
                         <slot name="header"></slot>
-                        <a v-if="closeInHeader" class="exit" @click="$emit('close')" tabindex="0"><font-awesome-icon :icon="['far', 'times']" fixed-width></font-awesome-icon></a>
+                        <a v-if="closeInHeader"
+                           class="exit"
+                           @click="$emit('close')"
+                           tabindex="0">
+                            <font-awesome-icon :icon="['far', 'times']" fixed-width>
+                            </font-awesome-icon>
+                        </a>
                     </div>
-                
+
                     <div id="modal-body" class="fluid-container">
                         <slot name="body"></slot>
                     </div>
 
                     <div id="modal-footer" v-if="hasFooterContent">
                         <slot name="footer"></slot>
-                        <button @click="$emit('close')" v-if="closeInFooter" tabindex="0">Close</button>
+                        <button @click="$emit('close')"
+                                v-if="closeInFooter"
+                                tabindex="0">Close</button>
                     </div>
                 </div>
             </div>
@@ -24,53 +33,59 @@
 </template>
 
 <script>
-    export default {
-        name: 'modal',
-        props: {
-            closeInHeader: { type: Boolean, default: true },
-            closeInFooter: { type: Boolean, default: false },
-            dismissOnClick: { type: Boolean, default: false }
-        },
-        data() {
-            return {
-                isVisible: false
-            };
-        },
-        mounted() {
-            if (this.dismissOnClick) {
-                let touchEvent = 'ontouchstart' in window ? 'touchstart' : 'click';
-                window.addEventListener(touchEvent, this.handleGlobalClick);
-            }
-        },
-        destroyed() {
-            window.removeEventListener(touchEvent, this.handleGlobalClick);
-        },
-        methods: {
-            show() {
-                this.isVisible = true;
-                if (!document.body.classList.contains('modal-open')) {
-                    document.body.classList.add('modal-open');
-                }
-            },
-            hide() {
-                this.isVisible = false;
-                if (document.body.classList.contains('modal-open')) {
-                    document.body.classList.remove('modal-open');
-                }
-            },
-            handleGlobalClick(event) {
-                if (this.isVisible && this.$refs && this.$refs.modal && !this.$refs.modal.contains(event.target)) {
-                    this.close();
-                    this.$emit('close');
-                }
-            }
-        },
-        computed: {
-            hasFooterContent() {
-                return (this.$slots.footer !== null && this.$slots.footer !== undefined) || this.closeInFooter;
-            }
-        }
+export default {
+  name: 'modal',
+  props: {
+    closeInHeader: { type: Boolean, default: true },
+    closeInFooter: { type: Boolean, default: false },
+    dismissOnClick: { type: Boolean, default: false },
+  },
+  data() {
+    return {
+      isVisible: false,
+    };
+  },
+  mounted() {
+    if (this.dismissOnClick) {
+      const touchEvent = 'ontouchstart' in window ? 'touchstart' : 'click';
+      window.addEventListener(touchEvent, this.handleGlobalClick);
     }
+  },
+  destroyed() {
+    const touchEvent = 'ontouchstart' in window ? 'touchstart' : 'click';
+    window.removeEventListener(touchEvent, this.handleGlobalClick);
+  },
+  methods: {
+    show() {
+      this.isVisible = true;
+      if (!document.body.classList.contains('modal-open')) {
+        document.body.classList.add('modal-open');
+      }
+    },
+    hide() {
+      this.isVisible = false;
+      if (document.body.classList.contains('modal-open')) {
+        document.body.classList.remove('modal-open');
+      }
+    },
+    handleGlobalClick(event) {
+      if (this.isVisible
+          && this.$refs
+          && this.$refs.modal
+          && !this.$refs.modal.contains(event.target)) {
+        this.close();
+        this.$emit('close');
+      }
+    },
+  },
+  computed: {
+    hasFooterContent() {
+      return (this.$slots.footer !== null
+          && this.$slots.footer !== undefined)
+          || this.closeInFooter;
+    },
+  },
+};
 </script>
 
 <style lang="scss">
@@ -96,7 +111,7 @@
                 box-shadow: 0 2px 8px rgba(0,0,0,.33);
                 transition: all .3s ease;
 
-                #modal-header { 
+                #modal-header {
                     margin-top: 0 !important;
 
                     a.exit{

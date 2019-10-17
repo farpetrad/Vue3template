@@ -2,4 +2,4 @@
 
 };
 
-export { actions };
+export default actions;
