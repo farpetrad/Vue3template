@@ -1,6 +1,6 @@
 using System;
 
-namespace BakedPerfection.Core.Models
+namespace VueTemplate.Models
 {
     public class ErrorViewModel
     {

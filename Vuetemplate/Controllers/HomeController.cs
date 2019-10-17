@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using BakedPerfection.Core.Models;
+using VueTemplate.Models;
 
-namespace BakedPerfection.Core.Controllers
+namespace VueTemplate.Controllers
 {
     public class HomeController : Controller
     {        
