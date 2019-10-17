@@ -9,21 +9,36 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssPlugin = require('optimize-css-assets-webpack-plugin');
 const WebpackBundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-//Output location
+// Output location
 const appOutputPath = './wwwroot/Scripts/Bundle';
 const styleOutputPath = '../../Content/Styles';
 const imgOutputPath = '../../Content';
 const pageOutputPath = './wwwroot/';
 
-//App lication in sln
+// App lication in sln
 const appbasePath = './ClientApp/';
 
-//Paths
+// Paths
 const scriptPath = './Scripts/Bundle/';
 const stylePath = '/Content/Styles';
 
 const environmentName = (process.env.NODE_ENV || '').trim();
 const isProduction = environmentName === 'production';
+
+function resolve(dir) {
+    return path.join(__dirname, '..', dir)
+}
+
+const createLintingRule = () => ({
+  test: /\.(js|vue)$/,
+  loader: 'eslint-loader',
+  enforce: 'pre',
+  exclude: /node_modules/,
+  options: {
+    formatter: 'eslint-friendly-formatter',
+    emitWarning: false
+  }
+});
 
 module.exports = {
     context: path.resolve(__dirname, appbasePath),
@@ -40,6 +55,7 @@ module.exports = {
     },
     module: {
         rules: [
+            ...(!isProduction ? [createLintingRule()] : []),
             {
                 test: /\.vue$/,
                 exclude: /node_modules/,
