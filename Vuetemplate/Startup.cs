@@ -1,24 +1,25 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using Vuetemplate.Configuration;
 
 namespace VueTemplate
 {
     public class Startup
     {
+        private readonly EnvironmentConfiguration EnvironmentConfig;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            EnvironmentConfig = Configuration.Get<EnvironmentConfiguration>();
         }
 
         public IConfiguration Configuration { get; }
@@ -31,13 +32,13 @@ namespace VueTemplate
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
-            }).AddResponseCompression(options=>
+            }).AddResponseCompression(options =>
             {
                 options.EnableForHttps = true;
                 options.Providers.Add<BrotliCompressionProvider>();
                 options.Providers.Add<GzipCompressionProvider>();
                 options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "image/svg+xml", "application/xhml+xml", "image/x-icon" });
-            })            
+            })
             .Configure<BrotliCompressionProviderOptions>(options =>
             {
                 options.Level = CompressionLevel.Optimal;
@@ -46,12 +47,18 @@ namespace VueTemplate
             {
                 options.Level = CompressionLevel.Optimal;
             })
-            .AddResponseCaching()
-            .AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            .AddResponseCaching();
+
+            if (EnvironmentConfig.SupportMVC)
+            {
+                services.AddControllersWithViews();
+                services.AddRazorPages();
+            }
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -60,11 +67,11 @@ namespace VueTemplate
 
             var cachePeriod = env.IsDevelopment() ? "600" : "604900"; // dev 10 mins, otherwise 7 days and some change
 
-            app.UseResponseCompression()                
+            app.UseResponseCompression()
                 .Use(async (context, next) =>
                 {
                     await next();
-                    if(context.Response.StatusCode == 404 && !Path.HasExtension(context.Request.Path.Value))
+                    if (context.Response.StatusCode == 404 && !Path.HasExtension(context.Request.Path.Value))
                     {
                         context.Request.Path = "/index.html";
                         await next();
@@ -85,8 +92,11 @@ namespace VueTemplate
                             ctx.Context.Response.Headers.Append("Cache-Control", $"public, max-age={cachePeriod}");
                         }
                     }
-                })
-                .UseMvc();
+                });
+            if (EnvironmentConfig.SupportMVC)
+            {
+                app.UseRouting();
+            }
         }
     }
 }
