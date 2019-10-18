@@ -9,14 +9,17 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using Vuetemplate.Configuration;
 
 namespace VueTemplate
 {
     public class Startup
     {
+        private readonly EnvironmentConfiguration EnvironmentConfig;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            EnvironmentConfig = Configuration.Get<EnvironmentConfiguration>();
         }
 
         public IConfiguration Configuration { get; }
@@ -44,8 +47,14 @@ namespace VueTemplate
             {
                 options.Level = CompressionLevel.Optimal;
             })
-            .AddResponseCaching()
-            .AddRazorPages();
+            .AddResponseCaching();
+
+            if (EnvironmentConfig.SupportMVC)
+            {
+                services.AddControllersWithViews();
+                services.AddRazorPages();
+            }
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -83,7 +92,11 @@ namespace VueTemplate
                             ctx.Context.Response.Headers.Append("Cache-Control", $"public, max-age={cachePeriod}");
                         }
                     }
-                }).UseRouting();
+                });
+            if (EnvironmentConfig.SupportMVC)
+            {
+                app.UseRouting();
+            }
         }
     }
 }
