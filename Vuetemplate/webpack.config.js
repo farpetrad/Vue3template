@@ -8,6 +8,7 @@ const WebpackCleanPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssPlugin = require('optimize-css-assets-webpack-plugin');
 const WebpackBundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const TerserPlugin = require('terser-webpack-plugin');
 
 // Output location
 const appOutputPath = './wwwroot/Scripts/Bundle';
@@ -200,7 +201,8 @@ switch (process.env.NODE_ENV) {
         module.exports.optimization.minimize = true;
 
         module.exports.optimization.minimizer = (module.exports.optimization.minimizer || []).concat([
-            new OptimizeCssPlugin()            
+            new OptimizeCssPlugin(),
+            new TerserPlugin()
         ]);
 
         break;
