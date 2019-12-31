@@ -14,7 +14,7 @@
         <div class="col-md-8 col-12 text-center">
             <p @click="showDrawer = true">Hello World!</p>
 
-            <modal v-show="showModal" @close="showModal=false">
+            <modal ref="modal" v-show="showModal" @close="showModal=false" :dismissOnClick="true">
                 <template v-slot:header>
                     Header
                 </template>
@@ -22,15 +22,14 @@
                     <div>
                         This is a body
                         <img src="../assets/500px-Vue.js_Logo_2.svg.png"
-                             alt="vue logo"
-                             @click="showModal=true" />
+                             alt="vue logo" />
                     </div>
                 </template>
 
             </modal>
             <img src="../assets/500px-Vue.js_Logo_2.svg.png"
                  alt="vue logo"
-                 @click="showModal=true" />
+                 @click="doShowModal($event)" />
         </div>
     </div>
 </template>
@@ -44,6 +43,13 @@ export default {
       showDrawer: false,
     };
   },
+  methods:{
+    doShowModal(e){
+        this.showModal = !this.showModal;
+        e.stopPropagation();
+        this.$refs.modal.show();
+    }    
+  }
 };
 </script>
 

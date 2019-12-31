@@ -9,7 +9,7 @@
                         <slot name="header"></slot>
                         <a v-if="closeInHeader"
                            class="exit"
-                           @click="$emit('close')"
+                           @click="hide"
                            tabindex="0">
                             <font-awesome-icon :icon="['far', 'times']" fixed-width>
                             </font-awesome-icon>
@@ -45,21 +45,16 @@ export default {
       isVisible: false,
     };
   },
-  mounted() {
-    if (this.dismissOnClick) {
-      const touchEvent = 'ontouchstart' in window ? 'touchstart' : 'click';
-      window.addEventListener(touchEvent, this.handleGlobalClick);
-    }
-  },
-  destroyed() {
-    const touchEvent = 'ontouchstart' in window ? 'touchstart' : 'click';
-    window.removeEventListener(touchEvent, this.handleGlobalClick);
-  },
   methods: {
     show() {
       this.isVisible = true;
       if (!document.body.classList.contains('modal-open')) {
         document.body.classList.add('modal-open');
+      }
+
+      if (this.dismissOnClick) {
+        const touchEvent = 'ontouchstart' in window ? 'touchstart' : 'click';
+        window.addEventListener(touchEvent, this.handleGlobalClick);
       }
     },
     hide() {
@@ -67,14 +62,18 @@ export default {
       if (document.body.classList.contains('modal-open')) {
         document.body.classList.remove('modal-open');
       }
+      if(this.dismissOnClick){
+        const touchEvent = 'ontouchstart' in window ? 'touchstart' : 'click';
+        window.removeEventListener(touchEvent, this.handleGlobalClick);
+      }
+      this.$emit('close');
     },
     handleGlobalClick(event) {
       if (this.isVisible
           && this.$refs
           && this.$refs.modal
           && !this.$refs.modal.contains(event.target)) {
-        this.close();
-        this.$emit('close');
+        this.hide();
       }
     },
   },
