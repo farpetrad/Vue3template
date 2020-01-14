@@ -62,7 +62,7 @@ export default {
       if (document.body.classList.contains('modal-open')) {
         document.body.classList.remove('modal-open');
       }
-      if(this.dismissOnClick){
+      if (this.dismissOnClick) {
         const touchEvent = 'ontouchstart' in window ? 'touchstart' : 'click';
         window.removeEventListener(touchEvent, this.handleGlobalClick);
       }
