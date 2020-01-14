@@ -43,13 +43,13 @@ export default {
       showDrawer: false,
     };
   },
-  methods:{
-    doShowModal(e){
-        this.showModal = !this.showModal;
-        e.stopPropagation();
-        this.$refs.modal.show();
-    }    
-  }
+  methods: {
+    doShowModal(e) {
+      this.showModal = !this.showModal;
+      e.stopPropagation();
+      this.$refs.modal.show();
+    },
+  },
 };
 </script>
 
