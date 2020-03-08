@@ -1,5 +1,5 @@
 ﻿<template>
-    <div class="row">
+    <div class="container-fluid row">
         <div class="col-2">
             <drawer v-show="showDrawer"
                     @close-drawer="showDrawer = false"
@@ -22,12 +22,14 @@
                     <div>
                         This is a body
                         <img src="../assets/500px-Vue.js_Logo_2.svg.png"
+                             class="img-fluid"
                              alt="vue logo" />
                     </div>
                 </template>
 
             </modal>
             <img src="../assets/500px-Vue.js_Logo_2.svg.png"
+                 class="img-fluid"
                  alt="vue logo"
                  @click="doShowModal($event)" />
         </div>
