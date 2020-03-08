@@ -9,13 +9,15 @@ import {
   faEllipsisVAlt,
 } from '@fortawesome/pro-regular-svg-icons';
 
+import Modal from 'components/modal/Modal';
+import Drawer from 'components/Drawer';
+
+
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
 
-import Modal from './components/modal/Modal.vue';
-import Drawer from './components/Drawer.vue';
 
 Vue.component('modal', Modal);
 Vue.component(Drawer.name, Drawer);
