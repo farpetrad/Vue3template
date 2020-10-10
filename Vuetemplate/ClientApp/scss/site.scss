@@ -1,0 +1,34 @@
+﻿body {
+}
+
+html {
+    height: 100%;
+}
+
+#app {
+    height: 100%;
+
+    #wrap {
+        min-height: 100%;
+
+        .main {
+            overflow: auto;
+            overflow-x: hidden;
+
+            .overlay {
+                display: block;
+                position: fixed;
+                top: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0,0,0,0.7);
+                z-index: 1100;
+                opacity: 1;
+            }
+        }
+    }
+}
+
+.sitepage {
+    padding-top: 55px;
+}

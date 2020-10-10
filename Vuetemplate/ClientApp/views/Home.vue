@@ -1,5 +1,5 @@
 ﻿<template>
-    <div class="container-fluid row">
+    <div class="container-fluid sitepage row">
         <div class="col-2">
             <drawer v-show="showDrawer"
                     @close-drawer="showDrawer = false"
