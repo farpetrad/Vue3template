@@ -1,11 +1,15 @@
 ﻿<template>
     <div class="container-fluid sitepage row">
-        <div class="col-2">
+        <div class="col-2 pl-0">
             <drawer v-show="showDrawer"
                     @close-drawer="showDrawer = false"
                     key="drawer"
                     title="Navigation Drawer">
-                A drawer!
+                
+                    <div class="col-12">
+                        A drawer!
+                    </div>
+                
             </drawer>
             <transition name="leftSlide" mode="in-out">
                 <div class="overlay" key="overlay" v-show="showDrawer"></div>
