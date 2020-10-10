@@ -1,4 +1,4 @@
-# Vuetemplate a .NET Core 3.1 Application framework for Vue.js
+# Vuetemplate a .NET Core 3.1 Application framework for Vue.js 3
 
 ## Features
  * Content compression using gzip or brotli 
