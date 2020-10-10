@@ -13,7 +13,9 @@
                         <font-awesome-icon :icon="['far', 'ellipsis-v-alt']" fixed-width />
                     </h3>
                 </div>
-                <slot></slot>
+                <div class="col-12">
+                    <slot></slot>
+                </div>
             </div>
         </nav>
     </transition>
