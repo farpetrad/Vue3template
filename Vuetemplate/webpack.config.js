@@ -26,6 +26,9 @@ const stylePath = '/Content/Styles';
 const environmentName = (process.env.NODE_ENV || '').trim();
 const isProduction = environmentName === 'production';
 
+
+console.log(`Using babel config: ${path.resolve(__dirname, './babel.config.js')}`);
+
 module.exports = {
   context: path.resolve(__dirname, appbasePath),
   entry: {
@@ -58,8 +61,13 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        exclude: /node_modules/,
         loader: 'babel-loader',
+        include:[
+            path.resolve(__dirname, appbasePath),
+        ],
+        options:{
+            configFile: path.resolve(__dirname, './babel.config.js'),    
+        }
       },
       {
         test: /\.*scss$/,
@@ -95,14 +103,6 @@ module.exports = {
         test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
         loader: 'file-loader',
       },
-      //{
-      //    test: /\.(png|jpe?g|gif|svg)(\?\S*)?$/,
-      //    loader: 'file-loader',
-      //    options: {
-      //        name: '[name].[ext]?[hash]',
-      //        outputPath: imgOutputPath + 'Images'
-      //    }
-      //},
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         use: [
