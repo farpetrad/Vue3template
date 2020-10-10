@@ -141,7 +141,9 @@ module.exports = {
       new VueLoaderPlugin(),
 
       new webpack.DefinePlugin({
-          'process.env.NODE_ENV' : JSON.stringify(process.env.NODE_ENV),
+          'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+          '__VUE_OPTIONS_API__': true,          // disables vue2 style code when set to false
+          '__VUE_PROD_DEVTOOLS__': !isProduction
       }),
 
       new HtmlWebpackPlugin({
