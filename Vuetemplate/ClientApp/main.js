@@ -11,6 +11,7 @@ import {
 
 import Modal from 'components/modal/Modal';
 import Drawer from 'components/Drawer';
+import Navbar from 'components/nav/Navbar';
 
 
 import Vue from 'vue';
@@ -19,8 +20,10 @@ import router from './router';
 import store from './store';
 
 
+
 Vue.component('modal', Modal);
 Vue.component(Drawer.name, Drawer);
+Vue.component(Navbar.name, Navbar);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.component('font-awesome-layers', FontAwesomeLayers);
