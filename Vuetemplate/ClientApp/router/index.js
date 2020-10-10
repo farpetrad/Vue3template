@@ -3,10 +3,12 @@ import VueRouter from 'vue-router';
 
 import Home from 'views/Home';
 
+import store from '../store';
+
 Vue.use(VueRouter);
 
 
-export default new VueRouter({
+const router = new VueRouter({
   mode: 'history',
     routes: [
         {
@@ -23,3 +25,12 @@ export default new VueRouter({
         }
     ],
 });
+
+router.beforeEach(async (to, from, next) => {
+    document.title = `${store.getters.siteName} - ${to.name}`;
+
+    return await next();
+});
+
+
+export default router;
