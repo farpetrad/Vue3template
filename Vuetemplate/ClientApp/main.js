@@ -14,27 +14,25 @@ import Drawer from 'components/Drawer';
 import Navbar from 'components/nav/Navbar';
 
 
-import Vue from 'vue';
+
+import { createApp } from 'vue'
+
 import App from './App.vue';
 import router from './router';
 import store from './store';
 
 
 
-Vue.component('modal', Modal);
-Vue.component(Drawer.name, Drawer);
-Vue.component(Navbar.name, Navbar);
-
-Vue.component('font-awesome-icon', FontAwesomeIcon);
-Vue.component('font-awesome-layers', FontAwesomeLayers);
-Vue.component('font-awesome-layers-text', FontAwesomeLayersText);
-
 library.add(faTimes);
 library.add(faEllipsisVAlt);
 
-new Vue({
-  el: '#app',
-  router,
-  store,
-  render: (h) => h(App),
-}).$mount('#app');
+const app = createApp(App)
+                .use(router)
+                .use(store)
+                .component('font-awesome-icon', FontAwesomeIcon)
+                .component('font-awesome-layers', FontAwesomeLayers)
+                .component('font-awesome-layers-text', FontAwesomeLayersText)
+                .component('modal', Modal)
+                .component(Drawer.name, Drawer)
+                .component(Navbar.name, Navbar)
+                .mount('#app');
