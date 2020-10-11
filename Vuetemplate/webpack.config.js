@@ -30,11 +30,14 @@ const isProduction = environmentName === 'production';
 console.log(`Using babel config: ${path.resolve(__dirname, './babel.config.js')}`);
 
 module.exports = {
-  context: path.resolve(__dirname, appbasePath),
-  entry: {
-      //vendor: ['vue', 'vuex','vue-router','axios'], // can control vendor bundle but can't use name function
-    main: './main.js',
-  },
+    context: path.resolve(__dirname, appbasePath),
+    entry: {
+        main: './main.js',
+    },
+    externals: {
+        vue: 'Vue'
+    },
+
   mode: environmentName,
   output: {
     path: path.resolve(__dirname, appOutputPath),
