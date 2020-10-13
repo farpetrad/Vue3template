@@ -12,7 +12,7 @@
 ## Building
 To build the solution you must build the C# solution and the vue client.  
 * C# can be built through visual studio or from the command line with dotnet build --configuration Release
-* Vue clint can be built with npm run dev/build from the command line
+* Vue client can be built with npm run dev/build from the command line
 
 * C# Build tested in Visual Studio 2019 16.7.5
 * Vue build tested with node.js 10.16.3 and 13.12.0
