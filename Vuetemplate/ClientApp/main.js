@@ -3,11 +3,13 @@ import 'regenerator-runtime/runtime';
 
 import { FontAwesomeIcon, FontAwesomeLayers, FontAwesomeLayersText } from '@fortawesome/vue-fontawesome';
 
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { library, config } from '@fortawesome/fontawesome-svg-core';
 import {
   faTimes,
   faEllipsisVAlt,
 } from '@fortawesome/pro-regular-svg-icons';
+config.autoAddCss = false;
+
 
 import Modal from 'components/modal/Modal';
 import Drawer from 'components/Drawer';
@@ -34,5 +36,5 @@ const app = createApp(App)
                 .component('font-awesome-layers-text', FontAwesomeLayersText)
                 .component('modal', Modal)
                 .component(Drawer.name, Drawer)
-                .component(Navbar.name, Navbar)
-                .mount('#app');
+                .component(Navbar.name, Navbar);
+app.mount('#app');

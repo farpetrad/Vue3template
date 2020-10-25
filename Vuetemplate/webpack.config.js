@@ -5,6 +5,7 @@ const AssetsPlugin = require('assets-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackCleanPlugin = require('clean-webpack-plugin');
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssPlugin = require('optimize-css-assets-webpack-plugin');
 const WebpackBundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
@@ -100,7 +101,10 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader',
+          use: [
+              MiniCssExtractPlugin.loader,
+              'style-loader!css-loader'
+          ]
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
@@ -154,6 +158,13 @@ module.exports = {
           filename: path.resolve(__dirname, pageOutputPath + 'index.html'),
           inject: true,
           template: path.resolve(__dirname, appbasePath + '/public/index.html'),
+      }),
+      new ScriptExtHtmlWebpackPlugin({
+          custom: {
+              test: /\.js$/,
+              attribute: 'nonce',
+              value: '__replaceme__'
+          }
       }),
 
       new MiniCssExtractPlugin({
