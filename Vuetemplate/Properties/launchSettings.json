@@ -5,6 +5,10 @@
     "iisExpress": {
       "applicationUrl": "http://localhost:50273",
       "sslPort": 0
+    },
+    "iis": {
+      "applicationUrl": "http://www.vuenexttemplate.com/",
+      "sslPort": 0
     }
   },
   "profiles": {
@@ -14,6 +18,11 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    },
+    "IIS": {
+      "commandName": "IIS",
+      "launchBrowser": true,
+      "ancmHostingModel": "InProcess"
     },
     "Vuetemplate": {
       "commandName": "Project",

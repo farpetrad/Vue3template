@@ -1,16 +1,20 @@
 ﻿<template>
     <div class="container-fluid sitepage row">
         <div class="col-2 pl-0">
-            <drawer v-show="showDrawer"
-                    @close-drawer="showDrawer = false"
-                    key="drawer"
-                    title="Navigation Drawer">
-                
+            <teleport to="#target" :disabled="!showDrawer">
+                <drawer v-show="showDrawer"
+                        @close-drawer="handleClose"
+                        key="drawer"
+                        title="Navigation Drawer">
                     <div class="col-12">
                         A drawer!
                     </div>
+
+                </drawer>
+            </teleport>
                 
-            </drawer>
+            
+            
             <transition name="leftSlide" mode="in-out">
                 <div class="overlay" key="overlay" v-show="showDrawer"></div>
             </transition>
@@ -18,20 +22,23 @@
         <div class="col-md-8 col-12 text-center">
             <p @click="showDrawer = true">Hello World!</p>
 
-            <modal ref="modal" v-show="showModal" @close="showModal=false" :dismissOnClick="true">
-                <template v-slot:header>
-                    Header
-                </template>
-                <template v-slot:body>
-                    <div>
-                        This is a body
-                        <img src="../assets/500px-Vue.js_Logo_2.svg.png"
-                             class="img-fluid"
-                             alt="vue logo" />
-                    </div>
-                </template>
+            <teleport to="#target" :disabled="!showModal">
+                <modal ref="modal" v-show="showModal" @close="showModal=false" :dismissOnClick="true" class="text-center">
+                    <template v-slot:header>
+                        Header
+                    </template>
+                    <template v-slot:body>
+                        <div>
+                            This is a body
+                            <img src="../assets/500px-Vue.js_Logo_2.svg.png"
+                                 class="img-fluid"
+                                 alt="vue logo" />
+                        </div>
+                    </template>
 
-            </modal>
+                </modal>
+            </teleport>
+            
             <img src="../assets/500px-Vue.js_Logo_2.svg.png"
                  class="img-fluid"
                  alt="vue logo"
@@ -54,7 +61,10 @@ export default {
       this.showModal = !this.showModal;
       e.stopPropagation();
       this.$refs.modal.show();
-    },
+      },
+      handleClose() {
+          this.showDrawer = !this.showDrawer;
+      }
   },
 };
 </script>
