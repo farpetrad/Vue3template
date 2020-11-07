@@ -1,10 +1,8 @@
 ﻿<template>
-    <div id="app">
-        <div id="wrap">
-            <div class="main">
-                <nav-bar></nav-bar>
-                <router-view></router-view>
-            </div>
+    <div id="wrap">
+        <div class="main">
+            <nav-bar></nav-bar>
+            <router-view></router-view>
         </div>
     </div>
 </template>

@@ -1,10 +1,9 @@
 ﻿const path = require('path');
 
 const webpack = require('webpack');
-const AssetsPlugin = require('assets-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const WebpackCleanPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssPlugin = require('optimize-css-assets-webpack-plugin');
@@ -76,12 +75,15 @@ module.exports = {
       {
         test: /\.*scss$/,
         use: [
-          MiniCssExtractPlugin.loader,
+          MiniCssExtractPlugin.loader,          
           'css-loader',
           {
             loader: 'sass-loader',
-            options: {
-              indentedSyntax: false,
+              options: {
+                  sassOptions: {
+                    indentedSyntax: false,
+                  }
+              
             },
           },
         ],
@@ -89,12 +91,14 @@ module.exports = {
       {
         test: /\.*sass$/,
         use: [
-          MiniCssExtractPlugin.loader,
+          MiniCssExtractPlugin.loader,          
           'css-loader',
           {
             loader: 'sass-loader',
             options: {
-              indentedSyntax: true,
+                sassOptions: {
+                    indentedSyntax: true,
+                }
             },
           },
         ],
@@ -126,24 +130,19 @@ module.exports = {
       },
     ],
   },
-  plugins: [
-    new WebpackCleanPlugin(
-      [
-        appOutputPath + '/*.js',
-        appOutputPath + '/*.map',
-        appOutputPath + '/index.html',
-        appOutputPath + styleOutputPath + '/*.css',
-        appOutputPath + '/*.json',
-      ],
-    ),
+    plugins: [
+        new CleanWebpackPlugin({
+            verbose: true,
+            dry: false,
+            dangerouslyAllowCleanPatternsOutsideProject: true,
+            cleanOnceBeforeBuildPatterns: [
+                '**/*',
+                '../../**/*.css',
+                '../../*.html'
+            ],
+        }),
 
       new webpack.HashedModuleIdsPlugin(),
-
-      new AssetsPlugin({
-          filename: 'webpack.assets.json',
-          path: path.resolve(__dirname, appOutputPath),
-          prettyPrint: true,
-      }),
 
       new VueLoaderPlugin(),
 
@@ -172,6 +171,8 @@ module.exports = {
           chunkFilename: isProduction ? styleOutputPath + '[id].[hash].css' : styleOutputPath + '[id].css',
           publicPath: stylePath,
       }),
+
+     //new WebpackBundleAnalyzerPlugin(),
   ],
   optimization: {
       moduleIds: 'hashed',
@@ -206,7 +207,7 @@ switch (process.env.NODE_ENV) {
 
     module.exports.optimization.minimizer = (module.exports.optimization.minimizer || []).concat([
       new OptimizeCssPlugin(),
-      new TerserPlugin(),
+        new TerserPlugin({ parallel: true }),
     ]);
 
     break;

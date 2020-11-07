@@ -3,11 +3,11 @@
         <nav id="drawer" class="fluid-container pb-5 pb-md-0" key="nav-drawer">
             <div class="row pb-3">
                 <div class="col-8 offset-1 mb-3 pb-3 pt-3 pl-1 mobile-indicator"
-                     @click="$emit('close-drawer')">
+                     @click="doClick">
                     <h3>{{title}}</h3>
                 </div>
                 <div class="col-2 mb-3 pb-3 pt-3 pr-0 mobile-indicator text-center"
-                     @click="$emit('close-drawer')">
+                     @click="doClick">
                     <h3>
                         <font-awesome-icon :icon="['far', 'times']" fixed-width />
                         <font-awesome-icon :icon="['far', 'ellipsis-v-alt']" fixed-width />
@@ -34,7 +34,12 @@ export default {
   },
   updated() {
     this.isVisible = !this.isVisible;
-  },
+        },
+        methods: {
+            doClick() {
+                this.$emit('close-drawer');
+            }
+        }
 };
 </script>
 
@@ -44,7 +49,7 @@ export default {
         transition: 0.75s;
     }
 
-    .leftSlide-enter {
+    .leftSlide-enter-from {
         transform: translate(-100%,0);
     }
 
@@ -57,6 +62,7 @@ export default {
         max-width:325px;
         height:100vh;
         position:fixed;
+        top:0;
         z-index:1300;
         background-color:#e7e7e7;
         overflow:auto;
