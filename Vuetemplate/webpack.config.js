@@ -35,7 +35,7 @@ module.exports = {
         main: './main.js',
     },
     externals: {
-        vue: 'Vue'
+        //vue: 'Vue'
     },
 
   mode: environmentName,
