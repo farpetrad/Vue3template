@@ -1,6 +1,6 @@
 ﻿<template>
     <transition name="leftSlide" mode="out-in">
-        <nav id="drawer" class="fluid-container pb-5 pb-md-0" key="nav-drawer">
+        <nav id="drawer" class="container-fluid pb-5 pb-md-0" key="nav-drawer">
             <div class="row pb-3">
                 <div class="col-8 offset-1 mb-3 pb-3 pt-3 pl-1 mobile-indicator"
                      @click="doClick">

@@ -15,7 +15,7 @@
                         </a>
                     </div>
 
-                    <div id="modal-body" class="fluid-container">
+                    <div id="modal-body" class="container-fluid">
                         <slot name="body"></slot>
                     </div>
 
