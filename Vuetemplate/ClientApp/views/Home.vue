@@ -3,7 +3,7 @@
         <div class="col-2 pl-0">
             <teleport to="#target" :disabled="!state.showDrawer">
                 <drawer v-show="state.showDrawer"
-                        @close-drawer="handleClose($event)"
+                        @close-drawer="handleClose"
                         key="drawer"
                         title="Navigation Drawer">
                     <div class="col-12">
@@ -67,7 +67,6 @@
 
             function handleClose(e) {
                 state.showDrawer = !state.showDrawer;
-                e.stopPropagation();
             };
 
             provide('modalOpen', showModal);
