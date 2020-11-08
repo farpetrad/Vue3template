@@ -49,7 +49,7 @@
 
 <script>
 
-    import { reactive, provide, ref } from 'vue';
+    import { reactive, provide, readonly, ref } from 'vue';
 
     export default {
         setup() {
@@ -69,7 +69,7 @@
                 state.showDrawer = !state.showDrawer;
             };
 
-            provide('modalOpen', showModal);
+            provide('modalOpen', readonly(showModal));
 
             return { state, doShowModal, handleClose, showModal };
         }
