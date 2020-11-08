@@ -65,7 +65,7 @@
                 e.stopPropagation();
             };
 
-            function handleClose(e) {
+            function handleClose() {
                 state.showDrawer = !state.showDrawer;
             };
 
