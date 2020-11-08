@@ -2,8 +2,7 @@
     <transition name="modalanim">
         <div id="modal-mask">
             <div class="modal-wrapper mt-2 mt-md-5 mb-2 mb-md-5">
-                <div class="modal-container col-12 offset-md-3 col-md-8 col-lg-7 col-xl-5"
-                     ref="modal">
+                <div class="modal-container col-12 offset-md-3 col-md-8 col-lg-7 col-xl-5" ref="modal">
 
                     <div id="modal-header">
                         <slot name="header"></slot>
@@ -33,57 +32,66 @@
 </template>
 
 <script>
-export default {
-  name: 'modal',
-  props: {
-    closeInHeader: { type: Boolean, default: true },
-    closeInFooter: { type: Boolean, default: false },
-    dismissOnClick: { type: Boolean, default: false },
-  },
-  data() {
-    return {
-      isVisible: false,
-    };
-  },
-  methods: {
-    show() {
-      this.isVisible = true;
-      if (!document.body.classList.contains('modal-open')) {
-        document.body.classList.add('modal-open');
-      }
 
-      if (this.dismissOnClick) {
-        const touchEvent = 'ontouchstart' in window ? 'touchstart' : 'click';
-        window.addEventListener(touchEvent, this.handleGlobalClick);
-      }
-    },
-    hide() {
-      this.isVisible = false;
-      if (document.body.classList.contains('modal-open')) {
-        document.body.classList.remove('modal-open');
-      }
-      if (this.dismissOnClick) {
-        const touchEvent = 'ontouchstart' in window ? 'touchstart' : 'click';
-        window.removeEventListener(touchEvent, this.handleGlobalClick);
-      }
-      this.$emit('close');
-    },
-    handleGlobalClick(event) {
-      if (this.isVisible
-          && this.$refs
-          && this.$refs.modal
-          && !this.$refs.modal.contains(event.target)) {
-        this.hide();
-      }
-    },
-  },
-  computed: {
-    hasFooterContent() {
-      return (this.$slots.footer !== null
-          && this.$slots.footer !== undefined)
-          || this.closeInFooter;
-    },
-  },
+    import { computed, ref, inject, watch } from 'vue';
+
+export default {  
+        props: {
+            closeInHeader: { type: Boolean, default: true },
+            closeInFooter: { type: Boolean, default: false },
+            dismissOnClick: { type: Boolean, default: false },
+        },
+        setup(props, context) {
+            const modal = ref(null);
+
+            const modalOpen = inject('modalOpen', false);
+
+            watch(modalOpen, (newValue, oldValue) => {                
+                if (newValue) {
+                    show();
+                }
+                else {
+                    hide();
+                }
+            });
+
+            const hasFooterContent = computed(() => {
+                return (context.slots.footer !== null
+                    && context.slots.footer !== undefined)
+                    || props.closeInFooter;
+            });
+
+            function show() {
+                if (!document.body.classList.contains('modal-open')) {
+                    document.body.classList.add('modal-open');
+                }
+
+                if (props.dismissOnClick) {
+                    const touchEvent = 'ontouchstart' in window ? 'touchstart' : 'click';
+                    window.addEventListener(touchEvent, handleGlobalClick);
+                }
+            }
+
+            function hide() {
+                if (document.body.classList.contains('modal-open')) {
+                    document.body.classList.remove('modal-open');
+                }
+                if (props.dismissOnClick) {
+                    const touchEvent = 'ontouchstart' in window ? 'touchstart' : 'click';
+                    window.removeEventListener(touchEvent, handleGlobalClick);
+                }
+                context.emit('close');
+            }
+
+            function handleGlobalClick(event) {
+                if (modalOpen && modal && modal.value
+                    && !modal.value.contains(event.target)) {
+                    hide();
+                }
+            }
+
+            return { hasFooterContent, show, hide, handleGlobalClick, modalOpen, modal };
+        }  
 };
 </script>
 
