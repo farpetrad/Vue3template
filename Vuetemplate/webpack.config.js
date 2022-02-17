@@ -142,8 +142,6 @@ module.exports = {
             ],
         }),
 
-      new webpack.HashedModuleIdsPlugin(),
-
       new VueLoaderPlugin(),
 
       new webpack.DefinePlugin({
@@ -169,13 +167,12 @@ module.exports = {
       new MiniCssExtractPlugin({
           filename: isProduction ? styleOutputPath + '[name].[hash].css' : styleOutputPath + '[name].css',
           chunkFilename: isProduction ? styleOutputPath + '[id].[hash].css' : styleOutputPath + '[id].css',
-          publicPath: stylePath,
       }),
 
      //new WebpackBundleAnalyzerPlugin(),
   ],
   optimization: {
-      moduleIds: 'hashed',
+      moduleIds: 'deterministic',
       chunkIds: 'named',
       runtimeChunk: {
           name: 'runtime',
@@ -202,7 +199,7 @@ module.exports = {
 
 switch (process.env.NODE_ENV) {
   case 'production':
-    module.exports.devtool = '';
+    module.exports.devtool = undefined;
     module.exports.optimization.minimize = true;
 
     module.exports.optimization.minimizer = (module.exports.optimization.minimizer || []).concat([
@@ -212,7 +209,7 @@ switch (process.env.NODE_ENV) {
 
     break;
   case 'development':
-    module.exports.devtool = '#source-map';
+    module.exports.devtool = 'source-map';
 
     module.exports.plugins = (module.exports.plugins || []).concat([
       new webpack.SourceMapDevToolPlugin({
