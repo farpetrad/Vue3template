@@ -172,7 +172,7 @@ module.exports = {
      //new WebpackBundleAnalyzerPlugin(),
   ],
   optimization: {
-      moduleIds: 'hashed',
+      moduleIds: 'deterministic',
       chunkIds: 'named',
       runtimeChunk: {
           name: 'runtime',
