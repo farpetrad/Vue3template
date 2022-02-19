@@ -1,8 +1,8 @@
 ﻿<template>
     <div class="container-fluid sitepage row">
         <div class="col-2 pl-0">
-            <teleport to="#target" :disabled="!state.showDrawer">
-                <drawer v-show="state.showDrawer"
+            <teleport to="#target" :disabled="!showDrawer">
+                <drawer v-show="showDrawer"
                         @close-drawer="handleClose"
                         key="drawer"
                         title="Navigation Drawer">
@@ -16,11 +16,11 @@
             
             
             <transition name="leftSlide" mode="in-out">
-                <div class="overlay" key="overlay" v-show="state.showDrawer"></div>
+                <div class="overlay" key="overlay" v-show="showDrawer"></div>
             </transition>
         </div>
         <div class="col-md-8 col-12 text-center">
-            <p @click="state.showDrawer = true">Hello World!</p>
+            <p @click="showDrawer = true">Hello World!</p>
 
             <teleport to="#target" :disabled="!showModal">
                 <modal v-show="showModal" @close="showModal=false" :dismissOnClick="true" class="text-center">
@@ -47,32 +47,23 @@
     </div>
 </template>
 
-<script>
+<script setup>
+    import { provide, readonly, ref } from 'vue';
 
-    import { reactive, provide, readonly, ref } from 'vue';
+    // use ref instead of state as this will be reactive when used by inject('modalOpen')
+    const showModal = ref(false);
+    const showDrawer = ref(false);
+    provide('modalOpen', readonly(showModal));
+    provide('drawerOpen', readonly(showDrawer));
+    
 
-    export default {
-        setup() {
+    function doShowModal(e) {                
+        showModal.value = !showModal.value;
+        e.stopPropagation();
+    };
 
-            const showModal = ref(false);
-
-            const state = reactive({
-                showDrawer: false,
-            });
-
-            function doShowModal(e) {                
-                showModal.value = !showModal.value;
-                e.stopPropagation();
-            };
-
-            function handleClose() {
-                state.showDrawer = !state.showDrawer;
-            };
-
-            provide('modalOpen', readonly(showModal));
-
-            return { state, doShowModal, handleClose, showModal };
-        }
+    function handleClose() {
+        showDrawer.value = !showDrawer.value;
     };
 </script>
 
