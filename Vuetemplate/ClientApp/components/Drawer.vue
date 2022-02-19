@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-    import { defineProps, defineEmits, inject } from 'vue';
+    import { inject } from 'vue';
 
     const props = defineProps({
         title: {
