@@ -35,6 +35,6 @@ const app = createApp(App)
                 .component('font-awesome-layers', FontAwesomeLayers)
                 .component('font-awesome-layers-text', FontAwesomeLayersText)
                 .component('modal', Modal)
-                .component(Drawer.name, Drawer)
+                .component('drawer', Drawer)
                 .component(Navbar.name, Navbar);
 app.mount('#app');

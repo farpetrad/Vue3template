@@ -47,32 +47,24 @@
     </div>
 </template>
 
-<script>
-
+<script setup>
     import { reactive, provide, readonly, ref } from 'vue';
 
-    export default {
-        setup() {
+    // use ref instead of state as this will be reactive when used by inject('modalOpen')
+    const showModal = ref(false);
+    provide('modalOpen', readonly(showModal));
 
-            const showModal = ref(false);
+    const state = reactive({
+        showDrawer: false,
+    });
 
-            const state = reactive({
-                showDrawer: false,
-            });
+    function doShowModal(e) {                
+        showModal.value = !showModal.value;
+        e.stopPropagation();
+    };
 
-            function doShowModal(e) {                
-                showModal.value = !showModal.value;
-                e.stopPropagation();
-            };
-
-            function handleClose() {
-                state.showDrawer = !state.showDrawer;
-            };
-
-            provide('modalOpen', readonly(showModal));
-
-            return { state, doShowModal, handleClose, showModal };
-        }
+    function handleClose() {
+        state.showDrawer = !state.showDrawer;
     };
 </script>
 

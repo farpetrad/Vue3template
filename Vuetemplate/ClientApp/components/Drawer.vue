@@ -21,26 +21,24 @@
     </transition>
 </template>
 
-<script>
-export default {
-  name: 'drawer',
-  props: {
-    title: { type: String, default: '' },
-  },
-  data() {
-    return {
-      isVisible: false,
-    };
-  },
-  updated() {
-    this.isVisible = !this.isVisible;
-        },
-        methods: {
-            doClick() {
-                this.$emit('close-drawer');
-            }
+<script setup>
+    import { defineProps, defineEmits, inject } from 'vue';
+
+    const props = defineProps({
+        title: {
+            type: String,
+            required: false,
+            default: ''
         }
-};
+    });
+
+    const emit = defineEmits(['close-drawer'])
+
+    const drawerOpen = inject('drawerOpen', false);
+
+    function doClick() {
+        emit('close-drawer');
+    };
 </script>
 
 <style lang="scss">
